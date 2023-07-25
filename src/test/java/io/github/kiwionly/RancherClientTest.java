@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.kiwionly.RancherClient.RancherPod;
+
 /**
  *  Example of usage
  *
@@ -13,7 +15,7 @@ public class RancherClientTest {
 
     public static void main(String[] args) throws Exception {
 
-        Long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
         String url = ""; // rancher host url
         String token = ""; // api token generated from Rancher
@@ -27,7 +29,7 @@ public class RancherClientTest {
         nameSpaces.add("?namespaceId=namespace_1");
         nameSpaces.add("?namespaceId=namespace_2");
 
-        List<RancherClient.RancherPod> list = client.getRancherPods(projects, nameSpaces);
+        List<RancherPod> list = client.getRancherPods(projects, nameSpaces);
 
         client.printHeader();
 
@@ -35,7 +37,7 @@ public class RancherClientTest {
         System.out.println("--- namespace_1");
         System.out.println();
 
-        for (RancherClient.RancherPod pod : list) {
+        for (RancherPod pod : list) {
             if (pod.nameSpaceId.contains("namespace_1")) {
                 System.out.println(pod);
             }
