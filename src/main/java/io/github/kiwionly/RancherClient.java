@@ -29,8 +29,6 @@ import okhttp3.Response;
 
 /**
  * Simple Rancher client that reading all pods minimize information and status.
- *
- *
  */
 public class RancherClient {
 
@@ -56,9 +54,11 @@ public class RancherClient {
 
 		Request request = new Request.Builder().url(url).addHeader("Authorization", "Bearer " + token).build();
 
-		Response response = client.newCall(request).execute();
+		String text;
+		try (Response response = client.newCall(request).execute()) {
 
-		String text = response.body().string();
+			text = response.body().string();
+		}
 
 		JSONObject data = JSON.parseObject(text);
 
@@ -220,6 +220,7 @@ public class RancherClient {
 		}
 
 		latch.await();
+		client.dispatcher().executorService().shutdown();
 
 		return map;
 	}
@@ -258,16 +259,6 @@ public class RancherClient {
 
 				long startTime = status.getLong("startTimeTS");
 				p.timeSince = getTimeSince(startTime);
-
-				JSONArray containerStatuses = status.getJSONArray("containerStatuses");
-
-				for (Object obj : containerStatuses) {
-					JSONObject conState = (JSONObject) obj;
-
-//					String restartCount = conState.getString("restartCount");
-					boolean ready = conState.getBoolean("ready");
-					p.ready = ready;
-				}
 
 				list.add(p);
 			}
