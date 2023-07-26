@@ -260,6 +260,15 @@ public class RancherClient {
 				long startTime = status.getLong("startTimeTS");
 				p.timeSince = getTimeSince(startTime);
 
+				JSONArray containerStatuses = status.getJSONArray("containerStatuses");
+
+				for (Object obj : containerStatuses) {
+					JSONObject conState = (JSONObject) obj;
+
+					boolean ready = conState.getBoolean("ready");
+					p.ready = ready;
+				}
+
 				list.add(p);
 			}
 		}
