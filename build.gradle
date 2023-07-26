@@ -2,6 +2,8 @@ plugins {
     id 'java'
 }
 
+sourceCompatibility = '8'
+
 group = 'com.seagate'
 version = '1.0-SNAPSHOT'
 

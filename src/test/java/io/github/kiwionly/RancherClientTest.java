@@ -23,7 +23,7 @@ public class RancherClientTest {
         RancherClient client = new RancherClient(url, token);
         client.setVerbose(false); // verbose internal information, default:true
 
-        JSONObject projects = client.getProjects("?name=my_project_name"); // name is filter of rancher api
+        JSONObject projects = client.getProjects("?name=my_project_name"); // name is filter parameter of rancher api
 
         List<String> nameSpaces = new ArrayList<>();
         nameSpaces.add("?namespaceId=namespace_1");
